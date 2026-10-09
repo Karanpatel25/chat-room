@@ -1,0 +1,32 @@
+# /etc/systemd/system/chat.service  (install the binary to /opt/chat, then: systemctl enable --now chat)
+[Unit]
+Description=Chat room server
+After=network.target
+
+[Service]
+User=chat
+Group=chat
+WorkingDirectory=/opt/chat
+ExecStart=/opt/chat/chat_server -p 8080 -b 127.0.0.1 -d /var/lib/chat -w /opt/chat/public --secure --trust-proxy
+Restart=on-failure
+# SIGTERM makes the server flush and close its logs cleanly
+KillSignal=SIGTERM
+TimeoutStopSec=10
+
+# Hardening
+StateDirectory=chat
+StateDirectoryMode=0700
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=true
+MemoryDenyWriteExecute=true
+CapabilityBoundingSet=
+
+[Install]
+WantedBy=multi-user.target

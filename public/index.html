@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <!-- Login / register -->
+  <main id="auth-screen" class="auth" hidden>
+    <div class="auth-card">
+      <h1>Chat</h1>
+      <div class="tabs" role="tablist">
+        <button id="tab-login" class="tab active" type="button" role="tab">Log in</button>
+        <button id="tab-register" class="tab" type="button" role="tab">Sign up</button>
+      </div>
+      <form id="auth-form" autocomplete="on">
+        <label for="auth-username">Username</label>
+        <input id="auth-username" name="username" type="text" autocomplete="username"
+               minlength="3" maxlength="24" pattern="[A-Za-z0-9_\-]+" required>
+        <label for="auth-password">Password</label>
+        <input id="auth-password" name="password" type="password" autocomplete="current-password"
+               minlength="8" maxlength="128" required>
+        <p id="auth-hint" class="hint" hidden>3&ndash;24 letters, digits, _ or &minus;. Password: at least 8 characters.</p>
+        <p id="auth-error" class="error" role="alert" hidden></p>
+        <button id="auth-submit" type="submit" class="primary">Log in</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Chat -->
+  <div id="chat-screen" class="chat" hidden>
+    <aside id="sidebar" class="sidebar">
+      <div class="me">
+        <div><span id="me-dot" class="dot"></span> <strong id="me-name"></strong></div>
+        <span><button id="settings-btn" type="button" class="link">Settings</button> <button id="logout-btn" type="button" class="link">Log out</button></span>
+      </div>
+      <div id="status" class="status">Connecting&hellip;</div>
+      <input id="user-filter" type="search" placeholder="Search or start a new chat" aria-label="Search chats and people" maxlength="24">
+      <h2>Chats</h2>
+      <ul id="chat-list" class="conv-list"></ul>
+      <h2 id="people-head">New chat</h2>
+      <ul id="user-list" class="conv-list"></ul>
+    </aside>
+
+    <section class="main">
+      <header class="main-head">
+        <button id="menu-btn" type="button" class="icon" aria-label="Show conversations">&#9776;</button>
+        <div>
+          <div id="conv-title" class="title"></div>
+          <div id="conv-sub" class="sub"></div>
+        </div>
+      </header>
+      <div id="messages" class="messages" role="log" aria-live="polite" aria-label="Messages"></div>
+      <div id="typing" class="typing"></div>
+      <div id="reply-bar" class="reply-bar" hidden>
+        <div class="reply-info"><strong id="reply-who"></strong><span id="reply-text"></span></div>
+        <button id="reply-cancel" type="button" class="tool" aria-label="Cancel reply">&#10005;</button>
+      </div>
+      <form id="msg-form" class="composer" autocomplete="off">
+        <button id="emoji-btn" type="button" class="tool" aria-label="Insert emoji" aria-expanded="false">&#128578;</button>
+        <input id="msg-input" type="text" maxlength="400" placeholder="Type a message" aria-label="Message" autocomplete="off">
+        <button type="submit" class="primary">Send</button>
+      </form>
+      <div id="emoji-pop" class="emoji-pop" hidden></div>
+    </section>
+  </div>
+
+  <!-- Settings -->
+  <div id="settings" class="overlay" role="dialog" aria-modal="true" aria-labelledby="settings-title" hidden>
+    <div class="card">
+      <h2 id="settings-title">Settings</h2>
+      <form id="pw-form" autocomplete="off">
+        <label for="pw-old">Current password</label>
+        <input id="pw-old" type="password" autocomplete="current-password" maxlength="128" required>
+        <label for="pw-new">New password</label>
+        <input id="pw-new" type="password" autocomplete="new-password" minlength="8" maxlength="128" required>
+        <p id="pw-msg" class="hint" role="status" hidden></p>
+        <button id="pw-submit" type="submit" class="primary">Change password</button>
+      </form>
+      <hr>
+      <p class="hint">Changing your password logs every other device out. You can also log out everywhere, including here.</p>
+      <button id="logout-all-btn" type="button" class="danger">Log out of all devices</button>
+      <button id="settings-close" type="button" class="link">Close</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+# Render Blueprint: Dashboard -> New -> Blueprint -> pick this repo.
+services:
+  - type: web
+    name: chat-room
+    runtime: docker
+    # A persistent disk needs a paid instance type. On the free plan there is no disk, the filesystem is
+    # wiped on every deploy/restart, and accounts + messages are lost (fine for a demo only).
+    plan: starter
+    healthCheckPath: /
+    envVars:
+      - key: DATA_DIR
+        value: /var/data
+    disk:
+      name: chat-data
+      mountPath: /var/data
+      sizeGB: 1
